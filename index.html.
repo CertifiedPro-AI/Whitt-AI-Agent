@@ -9,7 +9,6 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         body { font-family: 'Inter', sans-serif; background-color: #020617; color: #f8fafc; }
         
-        /* Custom Scrollbar for Chat */
         .chat-scroll::-webkit-scrollbar { width: 6px; }
         .chat-scroll::-webkit-scrollbar-track { background: transparent; }
         .chat-scroll::-webkit-scrollbar-thumb { background-color: #334155; border-radius: 10px; }
@@ -27,10 +26,9 @@
 </head>
 <body class="min-h-screen flex items-center justify-center p-4 bg-slate-950">
 
-    <!-- Main UI Container -->
     <div class="w-full max-w-2xl bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden flex flex-col h-[700px] max-h-[90vh]">
         
-        <!-- Header (Fixed Top) -->
+        <!-- Header -->
         <div class="bg-slate-800/50 backdrop-blur-md p-5 flex items-center justify-between border-b border-slate-800 shrink-0 z-10">
             <div class="flex items-center gap-4">
                 <div class="relative">
@@ -40,7 +38,7 @@
                     <div class="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 border-2 border-slate-800 rounded-full"></div>
                 </div>
                 <div>
-                    <h1 class="text-lg font-bold text-white leading-tight">Jaelin's AI Agent</h1>
+                    <h1 class="text-lg font-bold text-white">Jaelin's AI Agent</h1>
                     <p class="text-[10px] text-emerald-400 font-bold uppercase tracking-widest">Active Representation</p>
                 </div>
             </div>
@@ -52,16 +50,15 @@
             </div>
         </div>
 
-        <!-- Chat Area (Scrollable Middle) -->
-        <div id="chat-box" class="flex-1 p-6 overflow-y-auto chat-scroll space-y-6 relative bg-slate-900/50">
-            <!-- Initial Agent Message -->
+        <!-- Chat Area -->
+        <div id="chat-box" class="flex-1 p-6 overflow-y-auto chat-scroll space-y-6 bg-slate-900/50">
             <div class="flex gap-4">
                 <div class="w-8 h-8 rounded-full bg-blue-600 flex-shrink-0 flex items-center justify-center text-white text-[10px] font-bold mt-1 shadow-lg shadow-blue-900/50">AI</div>
-                <div class="bg-slate-800/80 border border-slate-700 p-4 rounded-2xl rounded-tl-none max-w-[85%] shadow-sm">
+                <div class="bg-slate-800/80 border border-slate-700 p-4 rounded-2xl rounded-tl-none max-w-[85%]">
                     <p class="text-sm text-slate-200 leading-relaxed">
-                        Hello. I am the digital representative for **Jaelin Joseph Whitt**. I am equipped to discuss his experience in Contact Center Leadership, Salesforce Administration, and revenue protection.
+                        Hello. I am the digital representative for **Jaelin Joseph Whitt**. I am ready to discuss his experience in Contact Center Leadership, Salesforce Administration, and revenue protection.
                         <br><br>
-                        Please select a strategic inquiry below to explore his professional metrics.
+                        Please select a strategic inquiry below to begin.
                     </p>
                 </div>
             </div>
@@ -70,12 +67,10 @@
         <!-- Inquiry Area (Fixed Bottom) -->
         <div class="p-5 bg-slate-800 border-t border-slate-700 shrink-0 shadow-[0_-10px_20px_-5px_rgba(0,0,0,0.3)] z-10">
             <div class="flex justify-between items-end mb-4 px-1">
-                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Decision Logic Menu</p>
+                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Select an Inquiry:</p>
                 <p id="q-counter" class="text-[9px] text-slate-400 font-bold tracking-widest bg-slate-900 px-3 py-1 rounded-full border border-slate-700">15 REMAINING</p>
             </div>
-            <div id="dynamic-questions" class="flex flex-col gap-2">
-                <!-- Buttons injected via JavaScript -->
-            </div>
+            <div id="dynamic-questions" class="flex flex-col gap-2"></div>
         </div>
     </div>
 
@@ -83,26 +78,24 @@
         const chatBox = document.getElementById('chat-box');
         let isProcessing = false;
 
-        // --- PRE-COMPILED RESPONSE MATRIX ---
         const responseMatrix = {
-            "How has he impacted revenue retention (GRR)?": "Jaelin maintained a **89%+ Gross Retention Rate** across a **$2.8M book of business**. By implementing proactive SLA review checkpoints, he drove a **29% decrease in at-risk revenue**.",
-            "What are his results in revenue expansion?": "As a Sales & Service Manager, he grew portfolio revenue by **23% YoY**, generating over **$781,000 in new revenue** by identifying expansion signals months before renewal conversations.",
-            "Reducing escalations and case volume?": "Jaelin reduced client escalations by **42%** and overall case volume by **19%**. He achieved this by implementing a proactive de-escalation framework and utilizing Salesforce dashboards for early risk detection.",
-            "Experience leading & coaching teams?": "He led and developed a team of **12 associates**, directing day-to-day operations, workforce scheduling, and QA. He reduced new-hire ramp time by **30%** via a scalable onboarding playbook.",
-            "Handling complex customer disputes?": "Serving as the primary escalation point, Jaelin troubleshooting operational bottlenecks and resolved complex disputes to stabilize long-term portfolio health and recurring revenue.",
-            "Strategy for reducing at-risk revenue?": "His strategy centered on **data-driven health scoring**. By conducting regular 1:1 coaching and 30/60/90-day reviews, he identified churn indicators early enough to intervene effectively.",
-            "Salesforce & automation skills?": "Jaelin is a **Salesforce Certified Platform Administrator**. He automated health checks and reporting using **Zapier**, recovering **10+ hours per week** for high-value activities.",
-            "Utilizing Workday and Microsoft 365?": "He utilizes **Workday (HRIS)** and Microsoft 365 to optimize service levels, manage workforce efficiency, and conduct full-cycle performance management from hiring to corrective action.",
-            "Data visualization for decision making?": "He manages team performance dashboards in **Salesforce and Tableau**, enabling the team to reduce response times to at-risk signals from weeks to just days.",
-            "Performance as a front-line associate?": "He produced results at **163% of quota**, generating **$497,000 in sales** within his first cycle. He also maintained a **98% NPS score**, winning the regional Sales & Service Award.",
-            "Onboarding and training experience?": "Jaelin designed a scalable onboarding system that standardized price books and workflows. This reduced ramp time by **30%** for his team of 12.",
-            "Approach to data integrity in CRM?": "He maintains strict data integrity within Salesforce, troubleshooting CRM workflow issues to ensure seamless handoffs and accurate KPI reporting across departments.",
-            "Top national performance rankings?": "He ranks in the **Top 5% nationally** out of 6,000 associates. He is a **2x Closer of the Year**, ranked **#1 in Team Finance Applications**, and a **4x Regional Marketing Winner**.",
-            "Why the Agentforce AI certification?": "Jaelin is pursuing this to scale customer experience without inflating headcount, focusing on automating service workflows to optimize workforce efficiency.",
-            "Educational background?": "He holds a background in **Economics from Georgia State University**, with all coursework completed and degree conferral scheduled for August 2026."
+            "How has he impacted revenue retention (GRR)?": "Jaelin maintained an **89%+ Gross Retention Rate** across a **$2.8M book of business**. By implementing proactive SLA review checkpoints, he drove a **29% decrease in at-risk revenue**.",
+            "What are his results in revenue expansion?": "As a Sales & Service Manager, he grew portfolio revenue by **23% YoY**, generating over **$781,000 in new revenue** by identifying expansion signals early.",
+            "Reducing escalations and case volume?": "Jaelin reduced client escalations by **42%** and overall case volume by **19%** by implementing a proactive de-escalation framework and utilizing Salesforce dashboards.",
+            "Experience leading & coaching teams?": "He led and developed a team of **12 associates**, directing day-to-day operations and reducing new-hire ramp time by **30%** via a scalable onboarding playbook.",
+            "Handling complex customer disputes?": "Serving as the primary escalation point, Jaelin troubleshooting operational bottlenecks and resolved complex disputes to stabilize portfolio health.",
+            "Strategy for reducing at-risk revenue?": "His strategy centered on **data-driven health scoring**. By conducting regular reviews, he identified churn indicators early enough to intervene effectively.",
+            "Salesforce & automation skills?": "Jaelin is a **Salesforce Certified Platform Administrator**. He automated health checks and reporting using **Zapier**, recovering **10+ hours per week**.",
+            "Utilizing Workday and Microsoft 365?": "He utilizes **Workday (HRIS)** and Microsoft 365 to optimize service levels, manage workforce efficiency, and conduct performance management.",
+            "Data visualization for decision making?": "He manages team performance dashboards in **Salesforce and Tableau**, reducing response times to at-risk signals from weeks to just days.",
+            "Performance as a front-line associate?": "He produced results at **163% of quota**, generating **$497,000 in sales**. He also maintained a **98% NPS score**.",
+            "Onboarding and training experience?": "Jaelin designed a scalable onboarding system that standardized workflows. This reduced ramp time by **30%** for his team.",
+            "Approach to data integrity in CRM?": "He maintains strict data integrity within Salesforce, troubleshooting CRM workflow issues to ensure seamless handoffs.",
+            "Top national performance rankings?": "He ranks in the **Top 5% nationally** out of 6,000 associates. He is a **2x Closer of the Year** and ranked **#1 in Team Finance Applications**.",
+            "Why the Agentforce AI certification?": "Jaelin is pursuing this to scale customer experience without inflating headcount, focusing on automating service workflows.",
+            "Educational background?": "He holds a background in **Economics from Georgia State University**, with degree conferral scheduled for August 2026."
         };
 
-        // Recruiter Funnel Questions
         const questionPool = [
             { label: "Revenue Retention (GRR) Impact?", query: "How has he impacted revenue retention (GRR)?" },
             { label: "Revenue Expansion Results?", query: "What are his results in revenue expansion?" },
@@ -126,13 +119,10 @@
         function renderQuestions() {
             const container = document.getElementById('dynamic-questions');
             const counter = document.getElementById('q-counter');
-            
             while (activeQuestions.length < 3 && questionPool.length > 0) {
                 activeQuestions.push(questionPool.shift());
             }
-
             container.innerHTML = '';
-            
             if (activeQuestions.length === 0) {
                 container.innerHTML = `<div class="p-5 bg-emerald-900/20 border border-emerald-500/30 rounded-2xl text-center shadow-inner">
                     <p class="text-[10px] text-emerald-400 font-bold uppercase tracking-widest mb-3">Core Review Complete</p>
@@ -141,35 +131,26 @@
                 counter.innerText = "0 REMAINING";
                 return;
             }
-
             activeQuestions.forEach((q, index) => {
                 const btn = document.createElement('button');
-                btn.className = "text-left px-5 py-4 bg-slate-700/50 hover:bg-blue-600 text-slate-200 text-xs font-semibold rounded-xl transition-all border border-slate-600 hover:border-blue-400 shadow-sm flex items-center justify-between group";
-                btn.innerHTML = `<span>${q.label}</span> <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-500 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>`;
+                btn.className = "text-left px-5 py-4 bg-slate-700/50 hover:bg-blue-600 text-slate-200 text-xs font-semibold rounded-xl transition-all border border-slate-600 hover:border-blue-400 flex items-center justify-between group";
+                btn.innerHTML = `<span>${q.label}</span> <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-500 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>`;
                 btn.onclick = () => handleQuestionClick(index, q.query);
                 container.appendChild(btn);
             });
-
             counter.innerText = `${activeQuestions.length + questionPool.length} REMAINING`;
         }
 
         async function handleQuestionClick(index, query) {
             if (isProcessing) return;
             isProcessing = true;
-            
             activeQuestions.splice(index, 1);
             renderQuestions();
-            
             appendMessage(query, 'user');
             const typingId = showTypingIndicator();
-
             setTimeout(() => {
-                const typingEl = document.getElementById(typingId);
-                if (typingEl) typingEl.remove();
-                
-                const answer = responseMatrix[query] || "Data not found.";
-                appendMessage(answer, 'ai');
-                
+                document.getElementById(typingId).remove();
+                appendMessage(responseMatrix[query] || "Data not found.", 'ai');
                 isProcessing = false;
             }, 700);
         }
@@ -177,21 +158,14 @@
         function appendMessage(text, sender) {
             const wrapper = document.createElement('div');
             wrapper.className = `flex gap-4 ${sender === 'user' ? 'justify-end' : ''}`;
-            
-            let avatarHtml = '';
-            if (sender === 'ai') {
-                avatarHtml = `<div class="w-8 h-8 rounded-full bg-blue-600 flex-shrink-0 flex items-center justify-center text-white text-[10px] font-bold mt-1 shadow-lg shadow-blue-900/50">AI</div>`;
-            }
-
-            const msgHtml = `
-                ${sender === 'ai' ? avatarHtml : ''}
-                <div class="${sender === 'user' ? 'bg-blue-600 text-white rounded-tr-none shadow-blue-900/20' : 'bg-slate-800 border border-slate-700 text-slate-200 rounded-tl-none'} p-4 rounded-2xl max-w-[85%] shadow-lg">
+            let avatarHtml = sender === 'ai' ? `<div class="w-8 h-8 rounded-full bg-blue-600 flex-shrink-0 flex items-center justify-center text-white text-[10px] font-bold mt-1 shadow-lg shadow-blue-900/50">AI</div>` : '';
+            wrapper.innerHTML = `
+                ${avatarHtml}
+                <div class="${sender === 'user' ? 'bg-blue-600 text-white rounded-tr-none' : 'bg-slate-800 border border-slate-700 text-slate-200 rounded-tl-none'} p-4 rounded-2xl max-w-[85%] shadow-lg">
                     <p class="text-sm leading-relaxed">${text.replace(/\n/g, '<br>')}</p>
                 </div>
                 ${sender === 'user' ? `<div class="w-8 h-8 rounded-full bg-slate-700 flex-shrink-0 flex items-center justify-center text-white text-[10px] font-bold mt-1 shadow-lg shadow-slate-900/50">Me</div>` : ''}
             `;
-            
-            wrapper.innerHTML = msgHtml;
             chatBox.appendChild(wrapper);
             chatBox.scrollTop = chatBox.scrollHeight;
         }
@@ -201,21 +175,16 @@
             const wrapper = document.createElement('div');
             wrapper.id = id;
             wrapper.className = `flex gap-4`;
-            
-            wrapper.innerHTML = `
-                <div class="w-8 h-8 rounded-full bg-blue-600 flex-shrink-0 flex items-center justify-center text-white text-[10px] font-bold mt-1 shadow-lg shadow-blue-900/50">AI</div>
+            wrapper.innerHTML = `<div class="w-8 h-8 rounded-full bg-blue-600 flex-shrink-0 flex items-center justify-center text-white text-[10px] font-bold mt-1 shadow-lg shadow-blue-900/50">AI</div>
                 <div class="bg-slate-800 border border-slate-700 py-4 px-5 rounded-2xl rounded-tl-none flex items-center gap-1">
                     <div class="w-1.5 h-1.5 bg-slate-400 rounded-full typing-dot"></div>
                     <div class="w-1.5 h-1.5 bg-slate-400 rounded-full typing-dot"></div>
                     <div class="w-1.5 h-1.5 bg-slate-400 rounded-full typing-dot"></div>
-                </div>
-            `;
+                </div>`;
             chatBox.appendChild(wrapper);
             chatBox.scrollTop = chatBox.scrollHeight;
             return id;
         }
-
-        // Run Initial Render
         renderQuestions();
     </script>
 </body>
